@@ -10,33 +10,112 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		
 		<style>
 			body {
 				background-color: whitesmoke;
 			}
 		</style>
 
+		<script>
+			const regex = /[0-9]+ (min|sec):(.*)/gi;
+
+			var timer = null;
+			var pos = null;
+			var neg = null;
+
+			$(document).ready(() => {
+				pos = new Audio('http://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_positive.m4a');
+				neg = new Audio('http://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_negative.m4a');
+			});
+
+			function play() {
+				if (timer) {
+					$("#play").find("i").removeClass("fa-stop").addClass("fa-play");
+
+					clearInterval(timer);
+					timer = null;
+
+					neg.play();
+
+					$("#timer").text(null);
+					$("#label").text(null);
+				} else {
+					pos.play();
+
+					$("#play").find("i").removeClass("fa-play").addClass("fa-stop");
+
+					var arr = ($("#text").val() || $("#text").text()).match(regex);
+
+					var idx = 0;
+					var val = idx < arr.length ? arr[idx] : null;
+					var sec = val ? parseFloat(val) : null;
+					if (val.split(":")[0].endsWith("min"))
+						sec *= 60;
+
+					$("#timer").text(sec > 0 ? sec + " sec" : null);
+					$("#label").text(val.split(":")[1].trim());
+
+					timer = setInterval(function() {
+						sec--;
+
+						if (sec == 0) {
+							idx++;
+
+							val = idx < arr.length ? arr[idx] : null;
+							sec = val ? parseFloat(val) : null;
+							if (val.split(":")[0].endsWith("min"))
+								sec *= 60;
+
+							if (idx >= arr.length) {
+								$("#play").find("i").removeClass("fa-stop").addClass("fa-play");
+
+								clearInterval(timer);
+								timer = null;
+
+								neg.play();
+							} else {
+								pos.play();
+							}
+						}
+						
+						$("#timer").text(sec > 0 ? sec + " sec" : null);
+						$("#label").text(val.split(":")[1].trim());
+					}, 1000);
+				}
+			}
+		</script>
+
 		<title>Timer</title>
 	</head>
 	<body>
 		<div class="fixed-top">
-			<div id="timer"></div>
-			<div id="title"></div>
-		</div>
-		<div class="fixed-bottom" style="height: 70%;">
-			<div class="nav justify-content-center">
-				<button id="prev" type="button" class="btn btn-link"><i class="fa fa-step-backward" disabled="true"></i></button>
-				<button id="play" type="button" class="btn btn-link"><i class="fa fa-play"></i></button>
-				<button id="next" type="button" class="btn btn-link"><i class="fa fa-step-forward" disabled></i></button>
+			<div class="h-100">
+				<div class="d-flex justify-content-center">
+					<button id="prev" type="button" class="btn btn-link" disabled><i class="fa fa-step-backward"></i></button>
+					<button id="play" type="button" class="btn btn-link" onclick="play()"><i class="fa fa-play"></i></button>
+					<button id="next" type="button" class="btn btn-link" disabled><i class="fa fa-step-forward"></i></button>
+				</div>
+				<div class="text-center">
+					<h2 id="label"></h2>
+				</div>
+				<div class="text-center">
+					<h1 id="timer" class="font-weight-bold"></h1>
+				</div>
 			</div>
-			<form>
-				<textarea id="input" class="form-control text-monospace" style="position: fixed; height: 100%;"></textarea>
-			</form>
+		</div>
+		<div class="fixed-bottom" style="height: 70%; background-color: white">
+			<div class="d-flex justify-content-center h-100">
+				<textarea id="text" class="text-monospace"cols="64" autofocus="true" placeholder="Type here."  style="border: none; outline: none;"></textarea>
+			</div>
 		</div>
 	</body>
 </html>
 
 <!--
-	parse
-	timer
+	navbar
+	modal
+
+	load file
+	load url
 -->
