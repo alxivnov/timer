@@ -1,2 +1,2 @@
-# timer
+# Timer
 Markdown timer.
