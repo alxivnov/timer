@@ -12,8 +12,15 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 		
 		<style>
-			body {
-				background-color: whitesmoke;
+			html, body {
+				height: 100%;
+			}
+			main {
+				width:64ch;
+				outline: 1px solid transparent;
+				overflow: auto;
+				padding-top: 20px;
+				padding-bottom: 20px;
 			}
 		</style>
 
@@ -123,39 +130,26 @@
 						<h2 id="label"></h2>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal">Stop</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-stop"></i></button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="fixed-top">
-			<div class="h-100">
-				<div class="d-flex justify-content-center">
-					<button id="prev" type="button" class="btn btn-link" disabled><i class="fa fa-step-backward"></i></button>
-					<button id="play" type="button" class="btn btn-link" onclick="play()"><i class="fa fa-play"></i></button>
-					<button id="next" type="button" class="btn btn-link" disabled><i class="fa fa-step-forward"></i></button>
-				</div>
-			</div>
-		</div>
-		<div class="fixed-bottom" style="height: 70%; background-color: white">
-		<div class="d-flex justify-content-center h-100">	
-				<div id='text' class="text-monospace" contenteditable="true" style="width:64ch; outline: 1px solid transparent; overflow: auto; padding-top: 20px; padding-bottom: 20px;">
-					
-				</div>
-				<!--
-				https://codepen.io/flesler/pen/AEIFc
-				<textarea id="text" class="text-monospace" cols="64" autofocus="true" placeholder="30 sec: Timer Label" style="border: none; outline: none; resize: none; padding-top: 20px; padding-bottom: 20px;"></textarea>
-				-->
-			</div>
+		<div class="d-flex flex-column h-100">
+			<nav class="navbar navbar-light bg-light">
+				<a class="navbar-brand" href="#">Timer</a>
+
+				<button id="play" type="button" class="btn btn-primary" onclick="play()"><i class="fa fa-play"></i></button>
+			</nav>
+			<main id="text" class="flex-grow-1 align-self-center text-monospace" contenteditable="true">
+
+			</main>
 		</div>
 	</body>
 </html>
 
 <!--
-	navbar
-	modal
-
-	improve scroling during typing on iPhone
+	improve scrolling during typing on iPhone
 	move scrollbar to the right
 	refactor
 
