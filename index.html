@@ -18,43 +18,69 @@
 		</style>
 
 		<script>
-			const regex = /[0-9]+ (min|sec):(.*)/gi;
+			"use strict";
 
-			var timer = null;
-			var pos = null;
-			var neg = null;
+//			https://regex101.com
+//			const regex = /((?<=# )\d+ ?(sec|min): (.|\n)*?(?=(\n\n|\Z)))|(\d+ ?(sec|min): .*?(?=(\n|\Z)))/gi;
+			const regex = /(# \d+ ?(sec|min): (.|\n)*?(?=(\n\n|$)))|(\d+ ?(sec|min): .*?(?=(\n|$)))/gi;
+
+			let timer = null;
+			let pos = null;
+			let neg = null;
 
 			$(document).ready(() => {
+				$("#text").focus();
+//				$("#text").attr("placeholder", "30 sec: Timer 1\t\t\t\t\t\t\t\t1 min: Timer 2\t\t\t\t\t\t\t\t1.5 min: Timer 3");
+
 				pos = new Audio('http://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_positive.m4a');
 				neg = new Audio('http://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_negative.m4a');
+
+				$('#modal').on('hide.bs.modal', function (e) {
+					stop();
+				});
 			});
+
+			function stop() {
+				$("#play").find("i").removeClass("fa-stop").addClass("fa-play");
+
+				clearInterval(timer);
+				timer = null;
+
+				neg.play();
+
+				$("#timer").text(null);
+				$("#label").text(null);
+			}
 
 			function play() {
 				if (timer) {
-					$("#play").find("i").removeClass("fa-stop").addClass("fa-play");
-
-					clearInterval(timer);
-					timer = null;
-
-					neg.play();
-
-					$("#timer").text(null);
-					$("#label").text(null);
+					$("#modal").modal("hide");
 				} else {
+					let text = $("#text").html()
+						.trim()
+						.replace(/<br\s*\/*>/ig, '\n') 
+						.replace(/(<(p|div))/ig, '\n$1') 
+						.replace(/(<([^>]+)>)/ig, "");
+					console.log(text);
+					
+					let arr = text.match(regex);
+					if (arr.length == 0)
+						return;
+
+					$("#modal").modal("show");
+
 					pos.play();
 
 					$("#play").find("i").removeClass("fa-play").addClass("fa-stop");
 
-					var arr = ($("#text").val() || $("#text").text()).match(regex);
-
-					var idx = 0;
-					var val = idx < arr.length ? arr[idx] : null;
-					var sec = val ? parseFloat(val) : null;
-					if (val.split(":")[0].endsWith("min"))
+					let idx = 0;
+					let val = idx < arr.length ? arr[idx] : null;
+					let sec = val ? parseFloat(val.replace("#", "")) : null;
+					if (val && val.split(":")[0].endsWith("min"))
 						sec *= 60;
 
 					$("#timer").text(sec > 0 ? sec + " sec" : null);
-					$("#label").text(val.split(":")[1].trim());
+					$("#label").text(val ? val.split(":")[1].trim() : null);
 
 					timer = setInterval(function() {
 						sec--;
@@ -63,24 +89,19 @@
 							idx++;
 
 							val = idx < arr.length ? arr[idx] : null;
-							sec = val ? parseFloat(val) : null;
-							if (val.split(":")[0].endsWith("min"))
+							sec = val ? parseFloat(val.replace("#", "")) : null;
+							if (val && val.split(":")[0].endsWith("min"))
 								sec *= 60;
 
 							if (idx >= arr.length) {
-								$("#play").find("i").removeClass("fa-stop").addClass("fa-play");
-
-								clearInterval(timer);
-								timer = null;
-
-								neg.play();
+								$("#modal").modal("hide");
 							} else {
 								pos.play();
 							}
 						}
 						
 						$("#timer").text(sec > 0 ? sec + " sec" : null);
-						$("#label").text(val.split(":")[1].trim());
+						$("#label").text(val ? val.split(":")[1].trim() : null);
 					}, 1000);
 				}
 			}
@@ -89,6 +110,24 @@
 		<title>Timer</title>
 	</head>
 	<body>
+		<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="timer" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title font-weight-bold" id="timer"></h1>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h2 id="label"></h2>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Stop</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="fixed-top">
 			<div class="h-100">
 				<div class="d-flex justify-content-center">
@@ -96,17 +135,17 @@
 					<button id="play" type="button" class="btn btn-link" onclick="play()"><i class="fa fa-play"></i></button>
 					<button id="next" type="button" class="btn btn-link" disabled><i class="fa fa-step-forward"></i></button>
 				</div>
-				<div class="text-center">
-					<h2 id="label"></h2>
-				</div>
-				<div class="text-center">
-					<h1 id="timer" class="font-weight-bold"></h1>
-				</div>
 			</div>
 		</div>
 		<div class="fixed-bottom" style="height: 70%; background-color: white">
-			<div class="d-flex justify-content-center h-100">
-				<textarea id="text" class="text-monospace"cols="64" autofocus="true" placeholder="Type here."  style="border: none; outline: none;"></textarea>
+		<div class="d-flex justify-content-center h-100">	
+				<div id='text' class="text-monospace" contenteditable="true" style="width:64ch; outline: 1px solid transparent; overflow: auto; padding-top: 20px; padding-bottom: 20px;">
+					
+				</div>
+				<!--
+				https://codepen.io/flesler/pen/AEIFc
+				<textarea id="text" class="text-monospace" cols="64" autofocus="true" placeholder="30 sec: Timer Label" style="border: none; outline: none; resize: none; padding-top: 20px; padding-bottom: 20px;"></textarea>
+				-->
 			</div>
 		</div>
 	</body>
@@ -116,6 +155,13 @@
 	navbar
 	modal
 
+	improve scroling during typing on iPhone
+	move scrollbar to the right
+	refactor
+
 	load file
 	load url
+
+	format time
+	format markdown https://stackoverflow.com/questions/12831101/format-text-in-a-textarea
 -->
