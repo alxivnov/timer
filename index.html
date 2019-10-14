@@ -14,34 +14,30 @@
 	</head>
 	<body>
 		<div id="app">
-			<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="timer" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title font-weight-bold" id="timer"></h1>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<h2 id="label"></h2>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">
-								<i class="fas fa-stop"></i><span class="btn-title">Stop</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
+			<modal id="modal"></modal>
 			<div class="d-flex flex-column h-100">
-				<nav class="navbar navbar-light bg-light">
-					<a class="navbar-brand" href="#">Timer</a>
-	
-					<btn fas="play" onclick="play()">Start</btn>
-				</nav>
-				<main id="text" class="flex-grow-1 align-self-center text-monospace" contenteditable="true">
-	
+				<navbar expand stick>
+					<template #brand>
+						Timer
+					</template>
+
+					<nav-dropdown>
+						Templates
+
+						<template #dropdown>
+							<dropdown-item @click="text = shoulders1">Shoulders 1</dropdown-item>
+							<dropdown-item @click="text = shoulders2">Shoulders 2</dropdown-item>
+							<dropdown-divider></dropdown-divider>
+							<dropdown-item @click="text = test">Test</dropdown-item>
+						</template>
+					</nav-dropdown>
+
+					<template #form>
+						<btn fas="play" btn-style="success" outline onclick="play()">Start</btn>
+					</template>
+				</navbar>
+				<main class="flex-grow-1 align-self-center text-monospace">
+					<editable v-model="text"></editable>
 				</main>
 			</div>
 		</div>

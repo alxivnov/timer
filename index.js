@@ -42,15 +42,13 @@ function play() {
 			.replace(/<br\s*\/*>/ig, '\n') 
 			.replace(/(<(p|div))/ig, '\n$1') 
 			.replace(/(<([^>]+)>)/ig, "");
-		console.log(text);
+//			console.log(text);
 		
 		let arr = text.match(regex);
 		if (arr == null || arr.length == 0)
 			return;
 
 		$("#modal").modal("show");
-
-		pos.play();
 
 		$("#play").find("i").removeClass("fa-play").addClass("fa-stop");
 		$("#play").find("span").text("Stop");
@@ -61,8 +59,11 @@ function play() {
 		if (val && val.split(":")[0].endsWith("min"))
 			sec *= 60;
 
+		var title = val ? val.split(":")[1].trim() : null;
+		(title && title == title.toUpperCase() ? neg : pos).play();
+
 		$("#timer").text(sec > 0 ? sec + " sec" : null);
-		$("#label").text(val ? val.split(":")[1].trim() : null);
+		$("#label").text(title);
 
 		timer = setInterval(function() {
 			sec--;
@@ -78,23 +79,44 @@ function play() {
 				if (idx >= arr.length) {
 					$("#modal").modal("hide");
 				} else {
-					pos.play();
+					title = val ? val.split(":")[1].trim() : null;
+					(title && title == title.toUpperCase() ? neg : pos).play();
 				}
 			}
 			
 			$("#timer").text(sec > 0 ? sec + " sec" : null);
-			$("#label").text(val ? val.split(":")[1].trim() : null);
+			$("#label").text(title);
 		}, 1000);
 	}
 }
 
 vue_import_components([
 	'https://alxivnov.github.io/client-side-vue/btn.vue',
+	'https://alxivnov.github.io/client-side-vue/dropdown-divider.vue',
+	'https://alxivnov.github.io/client-side-vue/dropdown-item.vue',
+	'https://alxivnov.github.io/client-side-vue/nav-dropdown.vue',
+	'https://alxivnov.github.io/client-side-vue/nav-link.vue',
+	'https://alxivnov.github.io/client-side-vue/navbar.vue',
+	'./editable.vue',
+	'./modal.vue',
 ]);
 
 var app = new Vue({
 	el: '#app',
 	data: {
-		font: 0
+		text: null,
+		shoulders1: null,
+		shoulders2: null,
+		test: null,
+	},
+	mounted() {
+		fetch('./Shoulders 1.md').then(res => res.text()).then(text => this.shoulders1 = text);
+		fetch('./Shoulders 2.md').then(res => res.text()).then(text => this.shoulders2 = text);
+		fetch('./Test.md').then(res => res.text()).then(text => this.test = text);
+
+		setTimeout(() => {
+//		this.$nextTick(() => {
+			document.getElementById('text').focus();
+		}, 1000);
 	}
 });
