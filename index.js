@@ -15,9 +15,9 @@ $(document).ready(() => {
 	pos = new Audio('http://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_positive.m4a');
 	neg = new Audio('http://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_negative.m4a');
 
-	$('#modal').on('hide.bs.modal', function (e) {
-		stop();
-	});
+//	$('#modal').on('hide.bs.modal', function (e) {
+//		stop();
+//	});
 });
 
 function stop() {
@@ -48,7 +48,7 @@ function play() {
 		if (arr == null || arr.length == 0)
 			return;
 
-		$("#modal").modal("show");
+//		$("#modal").modal("show");
 
 		$("#play").find("i").removeClass("fa-play").addClass("fa-stop");
 		$("#play").find("span").text("Stop");
@@ -94,11 +94,11 @@ vue_import_components([
 	'https://alxivnov.github.io/client-side-vue/btn.vue',
 	'https://alxivnov.github.io/client-side-vue/dropdown-divider.vue',
 	'https://alxivnov.github.io/client-side-vue/dropdown-item.vue',
+	'https://alxivnov.github.io/client-side-vue/modal.vue',
 	'https://alxivnov.github.io/client-side-vue/nav-dropdown.vue',
 	'https://alxivnov.github.io/client-side-vue/nav-link.vue',
 	'https://alxivnov.github.io/client-side-vue/navbar.vue',
 	'./editable.vue',
-	'./modal.vue',
 ]);
 
 var app = new Vue({
@@ -118,5 +118,16 @@ var app = new Vue({
 //		this.$nextTick(() => {
 			document.getElementById('text').focus();
 		}, 1000);
+	},
+	methods: {
+		show() {
+			$("#modal").modal("show");
+		},
+		play() {
+			play();
+		},
+		stop() {
+			stop();
+		}
 	}
 });

@@ -14,7 +14,14 @@
 	</head>
 	<body>
 		<div id="app">
-			<modal id="modal"></modal>
+			<modal id="modal" title="Timer" scrollable centered fade size="xl" @shown="play" @hidden="stop">
+				<h1 id="timer"></h1>
+				<h2 id="label"></h2>
+
+				<template #footer>
+					<btn fas="stop" btn-style="secondary" data-dismiss="modal">Stop</btn>
+				</template>
+			</modal>
 			<div class="d-flex flex-column h-100">
 				<navbar expand stick>
 					<template #brand>
@@ -25,15 +32,15 @@
 						Templates
 
 						<template #dropdown>
-							<dropdown-item @click="text = shoulders1">Shoulders 1</dropdown-item>
-							<dropdown-item @click="text = shoulders2">Shoulders 2</dropdown-item>
+							<dropdown-item @click="text = shoulders1" :disabled="shoulders1 == null">Shoulders 1</dropdown-item>
+							<dropdown-item @click="text = shoulders2" :disabled="shoulders2 == null">Shoulders 2</dropdown-item>
 							<dropdown-divider></dropdown-divider>
-							<dropdown-item @click="text = test">Test</dropdown-item>
+							<dropdown-item @click="text = test" :disabled="test == null">Test</dropdown-item>
 						</template>
 					</nav-dropdown>
 
 					<template #form>
-						<btn fas="play" btn-style="success" outline onclick="play()">Start</btn>
+						<btn fas="play" btn-style="success" outline @click="show">Start</btn>
 					</template>
 				</navbar>
 				<main class="flex-grow-1 align-self-center text-monospace">
