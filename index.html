@@ -14,9 +14,9 @@
 	</head>
 	<body>
 		<div id="app">
-			<modal id="modal" title="Timer" scrollable centered fade size="xl" @shown="play" @hidden="stop">
+			<modal id="modal" title="Timer" scrollable centered fade size="lg" @shown="play" @hidden="stop">
 				<h1 id="timer"></h1>
-				<h2 id="label"></h2>
+				<h2 id="label" style="white-space: pre-wrap;"></h2>
 
 				<template #footer>
 					<btn fas="stop" btn-style="secondary" data-dismiss="modal">Stop</btn>
