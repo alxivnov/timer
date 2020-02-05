@@ -32,6 +32,10 @@
 						Templates
 
 						<template #dropdown>
+							<dropdown-item @click="text = core1" :disabled="core1 == null">Core 1</dropdown-item>
+							<dropdown-item @click="text = core2" :disabled="core2 == null">Core 2</dropdown-item>
+							<dropdown-item @click="text = glutes1" :disabled="glutes1 == null">Glutes 1</dropdown-item>
+							<dropdown-item @click="text = glutes2" :disabled="glutes2 == null">Glutes 2</dropdown-item>
 							<dropdown-item @click="text = shoulders1" :disabled="shoulders1 == null">Shoulders 1</dropdown-item>
 							<dropdown-item @click="text = shoulders2" :disabled="shoulders2 == null">Shoulders 2</dropdown-item>
 							<dropdown-divider></dropdown-divider>

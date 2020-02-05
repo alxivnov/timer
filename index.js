@@ -39,11 +39,11 @@ function play() {
 	} else {
 		let text = $("#text").html()
 			.trim()
-			.replace(/<br\s*\/*>/ig, '\n') 
-			.replace(/(<(p|div))/ig, '\n$1') 
+			.replace(/<br\s*\/*>/ig, '\n')
+			.replace(/(<(p|div))/ig, '\n$1')
 			.replace(/(<([^>]+)>)/ig, "");
 //			console.log(text);
-		
+
 		let arr = text.match(regex);
 		if (arr == null || arr.length == 0)
 			return;
@@ -83,7 +83,7 @@ function play() {
 					(title && title == title.toUpperCase() ? neg : pos).play();
 				}
 			}
-			
+
 			$("#timer").text(sec > 0 ? sec + " sec" : null);
 			$("#label").text(title);
 		}, 1000);
@@ -105,13 +105,21 @@ var app = new Vue({
 	el: '#app',
 	data: {
 		text: null,
+		core1: null,
+		core2: null,
+		glutes1: null,
+		glutes2: null,
 		shoulders1: null,
 		shoulders2: null,
 		test: null,
 	},
 	mounted() {
-		fetch('./Shoulders 1.md').then(res => res.text()).then(text => this.shoulders1 = text);
-		fetch('./Shoulders 2.md').then(res => res.text()).then(text => this.shoulders2 = text);
+		fetch('./Core 1.txt').then(res => res.text()).then(text => this.core1 = text);
+		fetch('./Core 2.txt').then(res => res.text()).then(text => this.core2 = text);
+		fetch('./Glutes 1.txt').then(res => res.text()).then(text => this.glutes1 = text);
+		fetch('./Glutes 2.txt').then(res => res.text()).then(text => this.glutes2 = text);
+		fetch('./Shoulders 1.txt').then(res => res.text()).then(text => this.shoulders1 = text);
+		fetch('./Shoulders 2.txt').then(res => res.text()).then(text => this.shoulders2 = text);
 		fetch('./Test.md').then(res => res.text()).then(text => this.test = text);
 
 		setTimeout(() => {

@@ -1,0 +1,38 @@
+# Core
+
+## LOWER ABS
+
+5 sec: GET READY
+30 sec: Figure 8s
+
+5 sec: GET READY
+60 sec: Seated V tucks
+
+5 sec: GET READY
+60 sec: Twisting pistons
+
+25 sec: REST
+5 sec: GET READY
+
+## OBLIQUES
+
+5 sec: GET READY
+30 sec: Side crunches - left
+30 sec: Elbow to knee crunches - left
+
+5 sec: GET READY
+30 sec: Side crunches - right
+30 sec: Elbow to knee crunches - right
+
+5 sec: GET READY
+30 sec: Side bridges - left
+
+5 sec: GET READY
+30 sec: Side bridges - right
+
+25 sec: REST
+5 sec: GET READY
+
+## GLUTES
+
+3 min: Sprinter lunges
