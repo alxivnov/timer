@@ -90,15 +90,16 @@ function play() {
 	}
 }
 
-vue_import_components([
-	'https://alxivnov.github.io/client-side-vue/btn.vue',
-	'https://alxivnov.github.io/client-side-vue/dropdown-divider.vue',
-	'https://alxivnov.github.io/client-side-vue/dropdown-item.vue',
-	'https://alxivnov.github.io/client-side-vue/modal.vue',
-	'https://alxivnov.github.io/client-side-vue/nav-dropdown.vue',
-	'https://alxivnov.github.io/client-side-vue/nav-link.vue',
-	'https://alxivnov.github.io/client-side-vue/navbar.vue',
-	'./editable.vue',
+let path = 'https://alxivnov.github.io/vue-compiler/';
+VueCompiler.import([
+	path + 'btn.vue',
+	path + 'dropdown-divider.vue',
+	path + 'dropdown-item.vue',
+	path + 'modal.vue',
+	path + 'nav-dropdown.vue',
+	path + 'nav-link.vue',
+	path + 'navbar.vue',
+	'editable.vue',
 ]);
 
 var app = new Vue({
