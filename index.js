@@ -42,7 +42,7 @@ function play() {
 			.replace(/<br\s*\/*>/ig, '\n')
 			.replace(/(<(p|div))/ig, '\n$1')
 			.replace(/(<([^>]+)>)/ig, "");
-//			console.log(text);
+//		console.log(text);
 
 		let arr = text.match(regex);
 		if (arr == null || arr.length == 0)
@@ -91,18 +91,21 @@ function play() {
 }
 
 let path = 'https://alxivnov.github.io/vue-compiler/';
-VueCompiler.import([
-	path + 'btn.vue',
-	path + 'dropdown-divider.vue',
-	path + 'dropdown-item.vue',
-	path + 'modal.vue',
-	path + 'nav-dropdown.vue',
-	path + 'nav-link.vue',
-	path + 'navbar.vue',
-	'editable.vue',
-]);
+let comp = [
+	'btn.vue',
+	'dropdown-divider.vue',
+	'dropdown-item.vue',
+	'modal.vue',
+	'nav-dropdown.vue',
+	'nav-link.vue',
+	'navbar.vue'
+]
+	.map(el => path + el)
+	.concat([
+		'editable.vue'
+	]);
 
-var app = new Vue({
+let opts = {
 	el: '#app',
 	data: {
 		text: null,
@@ -139,4 +142,6 @@ var app = new Vue({
 			stop();
 		}
 	}
-});
+};
+
+VueCompiler.createApp(opts, comp);
