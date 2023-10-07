@@ -5,24 +5,24 @@
 5 sec: GET READY
 
 ## FRONT
-60 sec: __Slow controlled front raises__
-30 sec: __Explosive push press__
+60 sec: __Slow controlled front raises 1__
+30 sec: __Explosive push press 1__
 
 25 sec: REST
 
 5 sec: GET READY
 
 ## MIDDLE
-60 sec: __Slow controlled lateral raises__
-30 sec: __Explosive push press__
+60 sec: __Slow controlled lateral raises 2__
+30 sec: __Explosive push press 2__
 
 25 sec: REST
 
 5 sec: GET READY
 
 ## REAR
-60 sec: __Slow controlled lateral raises__
-30 sec: __Explosive push press__
+60 sec: __Slow controlled lateral raises 3__
+30 sec: __Explosive push press 3__
 
 25 sec: REST
 
