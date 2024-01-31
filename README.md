@@ -1,2 +1,3 @@
 # Timer
-Markdown timer.
+
+Markdown timer
