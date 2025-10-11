@@ -8,12 +8,41 @@ let timer = null;
 let pos = null;
 let neg = null;
 
+// const audioContext = new AudioContext();
+const playable = function (url, audioContext = new AudioContext()) {
+	return fetch(url)
+		.then((res) => res.arrayBuffer())
+		.then((buf) => audioContext.decodeAudioData(buf))
+		.then((buf) => {
+			return {
+				play() {
+					const source = audioContext.createBufferSource();
+					source.buffer = buf;
+					source.connect(audioContext.destination);
+					source.start(0);
+				}
+			};
+		});
+};
+
 $(document).ready(() => {
 	$("#text").focus();
 //	$("#text").attr("placeholder", "30 sec: Timer 1\t\t\t\t\t\t\t\t1 min: Timer 2\t\t\t\t\t\t\t\t1.5 min: Timer 3");
 
-	pos = new Audio('https://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_positive.m4a');
-	neg = new Audio('https://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_negative.m4a');
+	playable('./Portal2_sfx_button_positive.m4a')
+		.then((playable) => {
+			pos = playable;
+		})
+		.catch(() => {
+			pos = new Audio('https://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_positive.m4a');
+		});
+	playable('./Portal2_sfx_button_negative.m4a')
+		.then((playable) => {
+			neg = playable;
+		})
+		.catch(() => {
+			neg = new Audio('https://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_negative.m4a');
+		});
 
 //	$('#modal').on('hide.bs.modal', function (e) {
 //		stop();
