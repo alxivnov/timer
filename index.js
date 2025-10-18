@@ -8,8 +8,7 @@ let timer = null;
 let pos = null;
 let neg = null;
 
-// const audioContext = new AudioContext();
-const playable = function (url, audioContext = new AudioContext()) {
+AudioContext.prototype.playable = function (url, audioContext = this) {
 	return fetch(url)
 		.then((res) => res.arrayBuffer())
 		.then((buf) => audioContext.decodeAudioData(buf))
@@ -29,14 +28,15 @@ $(document).ready(() => {
 	$("#text").focus();
 //	$("#text").attr("placeholder", "30 sec: Timer 1\t\t\t\t\t\t\t\t1 min: Timer 2\t\t\t\t\t\t\t\t1.5 min: Timer 3");
 
-	playable('./Portal2_sfx_button_positive.m4a')
+	const audioContext = new AudioContext();
+	audioContext.playable('./Portal2_sfx_button_positive.m4a')
 		.then((playable) => {
 			pos = playable;
 		})
 		.catch(() => {
 			pos = new Audio('https://media.steampowered.com/apps/portal2/soundtrack/02/ringtones/sfx/m4a/Portal2_sfx_button_positive.m4a');
 		});
-	playable('./Portal2_sfx_button_negative.m4a')
+	audioContext.playable('./Portal2_sfx_button_negative.m4a')
 		.then((playable) => {
 			neg = playable;
 		})
