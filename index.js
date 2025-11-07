@@ -20,7 +20,7 @@ AudioContext.prototype.playable = function (url, audioContext = this) {
 						const source = audioContext.createBufferSource();
 						source.buffer = buf;
 						source.connect(audioContext.destination);
-						source.start(0);
+						source.start(0, 0, 0.5);
 					} catch (err) {
 						console.error('play', url, err);
 					}
@@ -181,4 +181,4 @@ let opts = {
 	}
 };
 
-VueCompiler.createApp(opts, comp);
+VueCompiler.createApp(opts, comp, { vue2: true });
